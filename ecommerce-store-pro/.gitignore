@@ -1,0 +1,16 @@
+node_modules
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+.DS_Store
+.env
+server/prisma/dev.db
+client/dist
+server/dist
+coverage
+.idea
+.vscode
+npm-debug.log*
+
+client/.env
+server/.env
