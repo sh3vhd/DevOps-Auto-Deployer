@@ -1,0 +1,16 @@
+project_name: TaskManagerPro
+frontend:
+  repo: https://github.com/user/task-manager-client.git
+  port: 3000
+  build_context: frontend
+  env_file: .env.frontend
+backend:
+  repo: https://github.com/user/task-manager-server.git
+  port: 5000
+  build_context: backend
+  env_file: .env.backend
+nginx:
+  domain: myapp.local
+  email: admin@myapp.local
+paths:
+  workdir: ./_workdir
