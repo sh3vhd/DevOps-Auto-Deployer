@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  passwordHash String
+  role         Role           @default(USER)
+  createdAt    DateTime       @default(now())
+  orders       Order[]
+  tokens       RefreshToken[]
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  products  Product[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String
+  price       Decimal   @db.Decimal(10, 2)
+  stock       Int
+  images      String[]
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id              Int          @id @default(autoincrement())
+  userId          Int
+  user            User         @relation(fields: [userId], references: [id])
+  total           Decimal      @db.Decimal(10, 2)
+  status          OrderStatus  @default(PENDING)
+  shippingAddress Json
+  createdAt       DateTime     @default(now())
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id              Int     @id @default(autoincrement())
+  orderId         Int
+  productId       Int
+  quantity        Int
+  priceAtPurchase Decimal @db.Decimal(10, 2)
+  order           Order   @relation(fields: [orderId], references: [id])
+  product         Product @relation(fields: [productId], references: [id])
+}
+
+model RefreshToken {
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  token   String   @unique
+  expiry  DateTime
+  revoked Boolean  @default(false)
+  user    User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+@@index([slug], name: "product_slug_idx")
+@@index([status], name: "order_status_idx")
+@@index([createdAt], name: "order_created_idx")

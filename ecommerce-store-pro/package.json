@@ -1,0 +1,26 @@
+{
+  "name": "ecommerce-store-pro-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio-ready full-stack e-commerce demo application",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "postinstall": "(cd server && npm install && npx prisma generate) && (cd client && npm install)",
+    "dev:all": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=18.18.0",
+    "npm": ">=9.0.0"
+  }
+}
