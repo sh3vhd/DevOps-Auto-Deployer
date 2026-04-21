@@ -1,0 +1,20 @@
+{
+  "appearance": {
+    "theme": "dark",
+    "monoFont": "Consolas",
+    "fontSize": 10,
+    "uiScale": 100
+  },
+  "hex": {
+    "bytesPerRow": 16,
+    "showAscii": true,
+    "selectionColor": "#66aaff"
+  },
+  "disassembly": {
+    "syntax": "intel"
+  },
+  "general": {
+    "autosaveSession": true,
+    "language": "en_US"
+  }
+}
